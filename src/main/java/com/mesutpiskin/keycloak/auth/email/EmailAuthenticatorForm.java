@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 import static com.mesutpiskin.keycloak.auth.email.EmailConstants.*;
 
@@ -154,6 +155,8 @@ public class EmailAuthenticatorForm extends AbstractUsernameFormAuthenticator {
                 context.failureChallenge(AuthenticationFlowError.EXPIRED_CODE, challengeResponse);
             } else {
                 // valid
+                // handle concurrent login
+                handleConcurrentLogin(context);
                 // reset verification count
                 cache.put(geeCachePrefix(context)+MAX_VERIFICATION_ATTEMPT_KEY, 0);
                 // reset otp rate limit
@@ -309,6 +312,20 @@ public class EmailAuthenticatorForm extends AbstractUsernameFormAuthenticator {
         int otpRequestsCount = (int) cache.getOrDefault(geeCachePrefix(context)+MAX_RESEND_OTP_KEY, 0);
         otpRequestsCount += 1;
         cache.put(geeCachePrefix(context)+MAX_RESEND_OTP_KEY, otpRequestsCount, otpTimeframeWindowConfig, TimeUnit.MINUTES);
+    }
+
+    private void handleConcurrentLogin(AuthenticationFlowContext context) {
+        boolean isConcurrentLoginEnabled = getConfigInt(context, ENABLE_CONCURRENT_ACCESS_KEY, 1) == 1;
+        if(!isConcurrentLoginEnabled){
+            logoutAllUserSessions(context);
+        }
+    }
+
+    private void logoutAllUserSessions(AuthenticationFlowContext context) {
+            Stream<UserSessionModel> userSessions = context.getSession().sessions().getUserSessionsStream(context.getRealm(), context.getUser());
+            userSessions.forEach(s->{
+                context.getSession().sessions().removeUserSession(context.getRealm(), s);
+            });
     }
     
     private String geeCachePrefix(AuthenticationFlowContext context) {

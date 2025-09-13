@@ -14,4 +14,6 @@ public class EmailConstants {
 	public static final int RESEND_OTP_TIMEFRAME_VALUE = 3;
     public static final String BLOCK_LOGIN_DURATION_KEY = "BLOCK_LOGIN_DURATION";
 	public static final int BLOCK_LOGIN_DURATION_VALUE = 5;
+	public static final String ENABLE_CONCURRENT_ACCESS_KEY = "ENABLE_CONCURRENT_ACCESS_KEY";
+	public static final int ENABLE_CONCURRENT_ACCESS_VALUE = 1;
 }

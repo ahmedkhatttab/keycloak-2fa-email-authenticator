@@ -77,10 +77,12 @@ public class EmailAuthenticatorFormFactory implements AuthenticatorFactory {
                         "Maximum number of tries to verify OTP", String.valueOf(MAX_VERIFICATION_ATTEMPT_VALUE)),
                 createProperty(MAX_RESEND_OTP_KEY, "Resend New OTP",
                         "Maximum number of tries to resend OTP", String.valueOf(MAX_RESEND_OTP_VALUE)),
-                createProperty(BLOCK_LOGIN_DURATION_KEY, "BLOCK LOGIN DURATION",
+                createProperty(BLOCK_LOGIN_DURATION_KEY, "Block Login Duration",
                         "Block user from login fo a specific (x) in minutes", String.valueOf(BLOCK_LOGIN_DURATION_VALUE)),
                 createProperty(RESEND_OTP_TIMEFRAME_KEY, "Timeframe window in minutes to resend OTP",
-                        "Set how many OTP can send within a certain timeframe", String.valueOf(RESEND_OTP_TIMEFRAME_VALUE))
+                        "Set how many OTP can send within a certain timeframe", String.valueOf(RESEND_OTP_TIMEFRAME_VALUE)),
+                createProperty(ENABLE_CONCURRENT_ACCESS_KEY, "Allow Multiple Sessions For The Same User",
+                        "Allow Multiple Sessions For The Same User", String.valueOf(ENABLE_CONCURRENT_ACCESS_VALUE))
         );
     }
 
