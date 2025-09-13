@@ -14,7 +14,8 @@
         <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <keycloak.version>26.0.0</keycloak.version>
+        <infinispan.version>15.0.19.Final</infinispan.version>
+        <keycloak.version>26.3.3</keycloak.version>
         <maven-jar.plugin.version>3.4.2</maven-jar.plugin.version>
     </properties>
 
@@ -39,6 +40,30 @@
             <version>${keycloak.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-core</artifactId>
+            <version>${infinispan.version}</version> <!-- Optional if using Keycloak's classpath -->
+            <scope>provided</scope> <!-- To avoid packaging it -->
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.keycloak/keycloak-connections-infinispan -->
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-connections-infinispan</artifactId>
+            <version>1.8.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
+
 
     </dependencies>
 
